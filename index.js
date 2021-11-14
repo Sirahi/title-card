@@ -43,9 +43,6 @@ export default () => {
     {
         (async () => {
             let u2 = `${baseUrl}eyeblaster.gltj`;
-            if (/^https?:/.test(u2)) {
-                u2 = '/@proxy/' + u2;
-            }
     
             const m = await metaversefile.import(u2);
             
