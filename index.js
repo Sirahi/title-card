@@ -42,8 +42,11 @@ export default () => {
     
     {
         (async () => {
-            let u2 = `${baseUrl}eyeblaster.gltj`;
-            console.log(baseUrl, "HERE");
+            let u2 = `https://sirahi.github.io/title-card/eyeblaster.gltj`;
+            if (/^https?:/.test(u2)) {
+                u2 = '/@proxy/' + u2;
+            }
+            
             const m = await metaversefile.import(u2);
             
             eyeblasterApp = metaversefile.createApp({
