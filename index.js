@@ -14,7 +14,7 @@ export default () => {
 
     {
         (async ()=>{
-            let u2 = `https://sirahi.github.io/title-card-text/`
+            let u2 = `./scenes/title-card-text/`
             if (/^https?:/.test(u2)) {
                 u2 = '/@proxy/' + u2;
             }
@@ -35,14 +35,14 @@ export default () => {
 
             subApps[1] = textApp;
       
-            await textApp.addModule(m);
+            // await textApp.addModule(m);
             scene.add(textApp);
         })();
     }
     
     {
         (async () => {
-            let u2 = `https://sirahi.github.io/title-card/eyeblaster.gltj`;
+            let u2 = `./scenes/title-card/eyeblaster.gltj`;
             if (/^https?:/.test(u2)) {
                 u2 = '/@proxy/' + u2;
             }
@@ -63,7 +63,7 @@ export default () => {
 
             subApps[0] = eyeblasterApp;
       
-            await eyeblasterApp.addModule(m);
+            // await eyeblasterApp.addModule(m);
             scene.add(eyeblasterApp);
         })();
     }
