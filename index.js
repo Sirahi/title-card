@@ -14,7 +14,7 @@ export default () => {
 
     {
         (async ()=>{
-            let u2 = `./scenes/title-card-text/`
+            let u2 = `https://sirahi.github.io/title-card-text/`
             if (/^https?:/.test(u2)) {
                 u2 = '/@proxy/' + u2;
             }
