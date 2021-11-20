@@ -42,7 +42,7 @@ export default () => {
     
     {
         (async () => {
-            let u2 = `./scenes/title-card/eyeblaster.gltj`;
+            let u2 = `https://sirahi.github.io/title-card/eyeblaster.gltj`;
             if (/^https?:/.test(u2)) {
                 u2 = '/@proxy/' + u2;
             }
