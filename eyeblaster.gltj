@@ -96,10 +96,10 @@
         bottomRight = rotateCCW(bottomRight, pivot, angle);
         topLeft = rotateCCW(topLeft, pivot, angle);
 
-        bottomLeft.y -= f;
-        topRight.y -= f;
-        bottomRight.y -= f;
-        topLeft.y -= f;
+        //bottomLeft.y -= f;
+        //topRight.y -= f;
+        //bottomRight.y -= f;
+        //topLeft.y -= f;
 
         if (
           isPointInTriangle(vUv, bottomLeft, bottomRight, topRight) ||
@@ -121,10 +121,10 @@
         bottomRight = rotateCCW(bottomRight, pivot, angle);
         topLeft = rotateCCW(topLeft, pivot, angle);
 
-        bottomLeft.y -= f;
-        topRight.y -= f;
-        bottomRight.y -= f;
-        topLeft.y -= f;
+        //bottomLeft.y -= f;
+        //topRight.y -= f;
+        //bottomRight.y -= f;
+        //topLeft.y -= f;
 
         if (
           isPointInTriangle(vUv, bottomLeft, bottomRight, topRight) ||
@@ -174,7 +174,7 @@
         ) {
           float center = (topRight.y + bottomLeft.y) / 2.;
           float dist = clamp((center + 0.1) - vUv.y, 0., 1.);
-          color.rgb = vec3(0., 1., 0.) * (1.0 - dist) + vec3(1., 1., 0.0) * dist;
+          color.rgb = vec3(0., 1., 0.) * (1. - dist) + vec3(1., 1., 0.) * dist;
           color.a = 1.;
         }
         bottomLeft = vec2(-0.7, 1.75 - f);
@@ -184,7 +184,7 @@
         ) {
           float center = (topRight.y + bottomLeft.y) / 2.;
           float dist = clamp(vUv.y - (center - 0.1), 0., 1.);
-          color.rgb = vec3(0., 1., 0.) * (1.0 - dist) + vec3(1., 1., 0.) * dist;
+          color.rgb = vec3(0., 1., 0.) * (1. - dist) + vec3(1., 1., 0.) * dist;
           color.a = 1.;
         } 
       }
@@ -201,7 +201,7 @@
             if (
               insideAABB(vUv, bottomLeft, topRight)
             ) {
-              color.r = 1.;
+              color.g = 1.;
               color.a = 1.;
             }
           }
@@ -212,11 +212,11 @@
             if(f == 1.99)
               f = 0.0;
             vec2 bottomLeft = vec2(1.35 + 0.99 - f, 0.1);
-            vec2 topRight = vec2(1.7 + 0.99 - f, 0.175);
+            vec2 topRight = vec2(1.875 + 0.99 - f, 0.175);
             if (
               insideAABB(vUv, bottomLeft, topRight)
             ) {
-              color.r = 1.;
+              color.g = 1.;
               color.a = topRight.x - vUv.x;
             }
           }
@@ -235,7 +235,7 @@
             if (
               insideAABB(vUv, bottomLeft, topRight)
             ) {
-              color.r = 1.;
+              color.g = 1.;
               color.a = 1.;
             }
           }
@@ -246,24 +246,45 @@
             if(f == 2.99)
               f = 0.0;
             vec2 bottomLeft = vec2(1.27 + 1.99 - f, 0.025);
-            vec2 topRight = vec2(1.54 + 1.99 - f, 0.075);
+            vec2 topRight = vec2(1.675 + 1.99 - f, 0.075);
             if (
               insideAABB(vUv, bottomLeft, topRight)
             ) {
-              color.r = 1.;
+              color.g = 1.;
               color.a = topRight.x - vUv.x;
             }
           }
         }
       }
+      
+      #define NUM_ARROWS 7
+      
+      {
+        float f = mod(iTime * timeFactor, animTime);
+        if(f > 1.49) {
+          float width = 0.015 + (0.002 * f);
+          float height = 0.1 + (0.002 * f);
+          float f = mod(iTime * timeFactor, animTime);
+          f = min(1.49, f);
+          vec2 pos = vec2(-0.6, 1.92 - f);
+          vec2 distance = vec2(0.0, 0.07);
+          vec3 arrowColor = vec3(0.0, 0.0, 0.0);
+
+          for(int i = 0; i < NUM_ARROWS; i++) {
+            color = createArrow(pos, width, height, arrowColor, color);
+            pos -= distance;
+          }
+        }
+      }
 
       {
-        #define NUM_ARROWS 7
         float width = 0.015;
         float height = 0.1;
-        vec2 pos = vec2(-0.6, 1.92);
+        float f = mod(iTime * timeFactor, animTime);
+        f = min(1.49, f);
+        vec2 pos = vec2(-0.6, 1.92 - f);
         vec2 distance = vec2(0.0, 0.07);
-        vec3 arrowColor = vec3(1.0, 1.0, 1.0);
+        vec3 arrowColor = vec3(0.25, 0.25, 0.25);
 
         for(int i = 0; i < NUM_ARROWS; i++) {
           color = createArrow(pos, width, height, arrowColor, color);
