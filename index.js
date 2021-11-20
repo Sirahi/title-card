@@ -25,6 +25,10 @@ export default () => {
         start_url: u2,
       });
 
+      app.getComponent("heading") && textApp.setComponent("heading", app.getComponent("heading"));
+      app.getComponent("subHeading") && textApp.setComponent("subHeading", app.getComponent("subHeading"));
+      app.getComponent("text") && textApp.setComponent("text", app.getComponent("text"));
+
       textApp.contentId = u2;
       textApp.instanceId = getNextInstanceId();
       textApp.position.copy(app.position);

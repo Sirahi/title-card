@@ -67,7 +67,7 @@
       return (u >= 0.) && (v >= 0.) && (u + v < 1.);
     }
 
-    const float timeFactor = 5.0;
+    const float timeFactor = 4.0;
     const float animTime = 6.0;
 
     vec4 createArrow(vec2 pos, float width, float height, vec3 arrowColor, vec4 color) {
@@ -194,14 +194,31 @@
         float f = mod(iTime * timeFactor, animTime);
         if (f > 0.99)
         {
-          f = min(1.99, f);
-          vec2 bottomLeft = vec2(1.0 + 0.99 - f, 0.1);
-          vec2 topRight = vec2(1.35 + 0.99 - f, 0.175);
-          if (
-            insideAABB(vUv, bottomLeft, topRight)
-          ) {
-            color.r = 1.;
-            color.a = 1.;
+          {
+            f = min(1.99, f);
+            vec2 bottomLeft = vec2(1.0 + 0.99 - f, 0.1);
+            vec2 topRight = vec2(1.35 + 0.99 - f, 0.175);
+            if (
+              insideAABB(vUv, bottomLeft, topRight)
+            ) {
+              color.r = 1.;
+              color.a = 1.;
+            }
+          }
+          // trail
+          f = mod(iTime * timeFactor, animTime);
+          {
+            f = min(1.99, f);
+            if(f == 1.99)
+              f = 0.0;
+            vec2 bottomLeft = vec2(1.35 + 0.99 - f, 0.1);
+            vec2 topRight = vec2(1.7 + 0.99 - f, 0.175);
+            if (
+              insideAABB(vUv, bottomLeft, topRight)
+            ) {
+              color.r = 1.;
+              color.a = topRight.x - vUv.x;
+            }
           }
         }
       }
@@ -211,14 +228,31 @@
         float f = mod(iTime * timeFactor, animTime);
         if (f > 1.99)
         {
-          f = min(2.99, f);
-          vec2 bottomLeft = vec2(1.0 + 1.99 - f, 0.025);
-          vec2 topRight = vec2(1.27 + 1.99 - f, 0.075);
-          if (
-            insideAABB(vUv, bottomLeft, topRight)
-          ) {
-            color.r = 1.;
-            color.a = 1.;
+          {
+            f = min(2.99, f);
+            vec2 bottomLeft = vec2(1.0 + 1.99 - f, 0.025);
+            vec2 topRight = vec2(1.27 + 1.99 - f, 0.075);
+            if (
+              insideAABB(vUv, bottomLeft, topRight)
+            ) {
+              color.r = 1.;
+              color.a = 1.;
+            }
+          }
+          // trail
+          f = mod(iTime * timeFactor, animTime);
+          {
+            f = min(2.99, f);
+            if(f == 2.99)
+              f = 0.0;
+            vec2 bottomLeft = vec2(1.27 + 1.99 - f, 0.025);
+            vec2 topRight = vec2(1.54 + 1.99 - f, 0.075);
+            if (
+              insideAABB(vUv, bottomLeft, topRight)
+            ) {
+              color.r = 1.;
+              color.a = topRight.x - vUv.x;
+            }
           }
         }
       }
