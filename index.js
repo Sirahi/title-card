@@ -40,7 +40,7 @@ export default () => {
       subApps[0] = textApp;
 
       // await textApp.addModule(m);
-      scene.add(textApp);
+      // scene.add(textApp);
     })().then(() => {
       (async () => {
         let u2 = `https://sirahi.github.io/title-card/eyeblaster.gltj`;
