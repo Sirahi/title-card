@@ -65,7 +65,7 @@ export default () => {
         subApps[1] = eyeblasterApp;
 
         // await eyeblasterApp.addModule(m);
-        scene.add(eyeblasterApp);
+        // scene.add(eyeblasterApp);
       })();
     });
   }
