@@ -10,40 +10,39 @@ export default () => {
   const app = useApp();
   const postScene = usePostScene();
   app.name = "title-card";
-  console.log("LATEST TITLE CARD WORKING");
-  {
-    (async () => {
-      let u2 = `https://sirahi.github.io/title-card-text/`;
-      if (/^https?:/.test(u2)) {
-        u2 = "/@proxy/" + u2;
-      }
 
-      const m = await metaversefile.import(u2);
+  (async () => {
+    let u2 = `https://sirahi.github.io/title-card-text/`;
+    if (/^https?:/.test(u2)) {
+      u2 = "/@proxy/" + u2;
+    }
 
-      textApp = metaversefile.createApp({
-        start_url: u2,
-      });
+    const m = await metaversefile.import(u2);
 
-      app.getComponent("heading") && textApp.setComponent("heading", app.getComponent("heading"));
-      app.getComponent("subHeading") && textApp.setComponent("subHeading", app.getComponent("subHeading"));
-      app.getComponent("text") && textApp.setComponent("text", app.getComponent("text"));
+    textApp = metaversefile.createApp({
+      start_url: u2,
+    });
 
-      textApp.contentId = u2;
-      textApp.instanceId = getNextInstanceId();
-      textApp.position.copy(app.position);
-      textApp.quaternion.copy(app.quaternion);
-      textApp.scale.copy(app.scale);
-      textApp.updateMatrixWorld();
-      textApp.name = "text";
+    app.getComponent("heading") &&
+      textApp.setComponent("heading", app.getComponent("heading"));
+    app.getComponent("subHeading") &&
+      textApp.setComponent("subHeading", app.getComponent("subHeading"));
+    app.getComponent("text") &&
+      textApp.setComponent("text", app.getComponent("text"));
 
-      subApps[0] = textApp;
+    textApp.contentId = u2;
+    textApp.instanceId = getNextInstanceId();
+    textApp.position.copy(app.position);
+    textApp.quaternion.copy(app.quaternion);
+    textApp.scale.copy(app.scale);
+    textApp.updateMatrixWorld();
+    textApp.name = "text";
 
-      // await textApp.addModule(m);
-      // postScene.add(textApp);
-    })();
-  }
-  
-  {
+    subApps[0] = textApp;
+
+    // await textApp.addModule(m);
+    // postScene.add(textApp);
+  })().then(() => {
     (async () => {
       let u2 = `https://sirahi.github.io/title-card/eyeblaster.gltj`;
       if (/^https?:/.test(u2)) {
@@ -69,7 +68,7 @@ export default () => {
       // await eyeblasterApp.addModule(m);
       postScene.add(eyeblasterApp);
     })();
-  }
+  });
 
   useCleanup(() => {
     for (const subApp of subApps) {
