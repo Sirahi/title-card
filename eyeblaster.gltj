@@ -173,7 +173,7 @@
           insideAABB(vUv, bottomLeft, topRight)
         ) {
           float center = (topRight.y + bottomLeft.y) / 2.;
-          float dist = clamp((center + 0.1) - vUv.y, 0., 1.);
+          float dist = clamp((center + 0.3) - vUv.y, 0., 1.);
           color.rgb = vec3(0., 1., 0.) * (1. - dist) + vec3(1., 1., 0.) * dist;
           color.a = 1.;
         }
@@ -183,7 +183,7 @@
           insideAABB(vUv, bottomLeft, topRight)
         ) {
           float center = (topRight.y + bottomLeft.y) / 2.;
-          float dist = clamp(vUv.y - (center - 0.1), 0., 1.);
+          float dist = clamp(vUv.y - (center - 0.3), 0., 1.);
           color.rgb = vec3(0., 1., 0.) * (1. - dist) + vec3(1., 1., 0.) * dist;
           color.a = 1.;
         } 

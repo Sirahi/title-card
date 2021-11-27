@@ -1,5 +1,5 @@
 import metaversefile from "metaversefile";
-const { useApp, useScene, getNextInstanceId, useCleanup } = metaversefile;
+const { useApp, usePostScene, getNextInstanceId, useCleanup } = metaversefile;
 
 const baseUrl = import.meta.url.replace(/(\/)[^\/\\]*$/, "$1");
 
@@ -10,7 +10,7 @@ export default () => {
   const app = useApp();
   app.name = "title-card";
 
-  const scene = useScene();
+  const postScene = usePostScene();
 
   {
     (async () => {
@@ -40,7 +40,7 @@ export default () => {
       subApps[0] = textApp;
 
       // await textApp.addModule(m);
-      // scene.add(textApp);
+      // postScene.add(textApp);
     })().then(() => {
       (async () => {
         let u2 = `https://sirahi.github.io/title-card/eyeblaster.gltj`;
@@ -65,7 +65,7 @@ export default () => {
         subApps[1] = eyeblasterApp;
 
         // await eyeblasterApp.addModule(m);
-        // scene.add(eyeblasterApp);
+        postScene.add(eyeblasterApp);
       })();
     });
   }
@@ -73,7 +73,7 @@ export default () => {
   useCleanup(() => {
     for (const subApp of subApps) {
       if (subApp) {
-        scene.remove(subApp);
+        postScene.remove(subApp);
         subApp.destroy();
       }
     }
