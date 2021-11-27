@@ -4,8 +4,32 @@
       value: null,
       needsUpdate: true,
     },
+    iTimeS: {
+      value: null,
+      needsUpdate: true,
+    },
     iResolution: {
       value: null,
+      needsUpdate: true,
+    },
+    pColorOne: {
+      value: [0, 1, 0],
+      needsUpdate: true,
+    },
+    pColorTwo: {
+      value: [1, 1, 0],
+      needsUpdate: true,
+    },
+    arrowColor: {
+      value: [0.25, 0.25, 0.25],
+      needsUpdate: true,
+    },
+    hBgWidth: {
+      value: 0.35,
+      needsUpdate: true,
+    },
+    shBgWidth: {
+      value: 0.27,
       needsUpdate: true,
     },
   },
@@ -27,7 +51,12 @@
     precision highp float;
     precision highp int;
 
-    uniform float iTime;
+    uniform float iTimeS;
+    uniform vec3 pColorOne;
+    uniform vec3 pColorTwo;
+    uniform vec3 arrowColor;
+    uniform float hBgWidth;
+    uniform float shBgWidth;
 
     varying vec2 vUv;
     
@@ -70,9 +99,9 @@
     const float timeFactor = 4.0;
     const float animTime = 6.0;
 
-    vec4 createArrow(vec2 pos, float width, float height, vec3 arrowColor, vec4 color) {
+    vec4 createArrow(vec2 pos, float width, float height, vec3 aColor, vec4 color) {
         // root
-        float f = mod(iTime * timeFactor, animTime);
+        float f = mod(iTimeS * timeFactor, animTime);
         f = min(1.49, f);
         
         float angle = -0.78;
@@ -105,7 +134,7 @@
           isPointInTriangle(vUv, bottomLeft, bottomRight, topRight) ||
           isPointInTriangle(vUv, bottomLeft, topLeft, topRight)
         ) {
-          color.rgb = arrowColor;
+          color.rgb = aColor;
           color.a = 1.;
         }
 
@@ -130,7 +159,7 @@
           isPointInTriangle(vUv, bottomLeft, bottomRight, topRight) ||
           isPointInTriangle(vUv, bottomLeft, topLeft, topRight)
         ) {
-          color.rgb = arrowColor;
+          color.rgb = aColor;
           color.a = 1.;
         }
 
@@ -141,7 +170,7 @@
       vec4 color = vec4(0.);
       {
         // root
-        float f = mod(iTime * timeFactor, animTime);
+        float f = mod(iTimeS * timeFactor, animTime);
 
         f = min(1.49, f);
         
@@ -174,7 +203,7 @@
         ) {
           float center = (topRight.y + bottomLeft.y) / 2.;
           float dist = clamp((center + 0.3) - vUv.y, 0., 1.);
-          color.rgb = vec3(0., 1., 0.) * (1. - dist) + vec3(1., 1., 0.) * dist;
+          color.rgb = pColorOne * (1. - dist) + pColorTwo * dist;
           color.a = 1.;
         }
         bottomLeft = vec2(-0.7, 1.75 - f);
@@ -184,39 +213,39 @@
         ) {
           float center = (topRight.y + bottomLeft.y) / 2.;
           float dist = clamp(vUv.y - (center - 0.3), 0., 1.);
-          color.rgb = vec3(0., 1., 0.) * (1. - dist) + vec3(1., 1., 0.) * dist;
+          color.rgb = pColorOne * (1. - dist) + pColorTwo * dist;
           color.a = 1.;
         } 
       }
 
       {
         // heading
-        float f = mod(iTime * timeFactor, animTime);
+        float f = mod(iTimeS * timeFactor, animTime);
         if (f > 0.99)
         {
           {
             f = min(1.99, f);
             vec2 bottomLeft = vec2(1.0 + 0.99 - f, 0.1);
-            vec2 topRight = vec2(1.35 + 0.99 - f, 0.175);
+            vec2 topRight = vec2((1. + hBgWidth)  + 0.99 - f, 0.175);
             if (
               insideAABB(vUv, bottomLeft, topRight)
             ) {
-              color.g = 1.;
+              color.rgb = pColorOne;
               color.a = 1.;
             }
           }
           // trail
-          f = mod(iTime * timeFactor, animTime);
+          f = mod(iTimeS * timeFactor, animTime);
           {
             f = min(1.99, f);
             if(f == 1.99)
               f = 0.0;
-            vec2 bottomLeft = vec2(1.35 + 0.99 - f, 0.1);
-            vec2 topRight = vec2(1.875 + 0.99 - f, 0.175);
+            vec2 bottomLeft = vec2((1. + hBgWidth) + 0.99 - f, 0.1);
+            vec2 topRight = vec2((1. + hBgWidth*2. + hBgWidth/2.) + 0.99 - f, 0.175);
             if (
               insideAABB(vUv, bottomLeft, topRight)
             ) {
-              color.g = 1.;
+              color.rgb = pColorOne;
               color.a = topRight.x - vUv.x;
             }
           }
@@ -225,32 +254,32 @@
 
       {
         // sub-heading
-        float f = mod(iTime * timeFactor, animTime);
+        float f = mod(iTimeS * timeFactor, animTime);
         if (f > 1.99)
         {
           {
             f = min(2.99, f);
             vec2 bottomLeft = vec2(1.0 + 1.99 - f, 0.025);
-            vec2 topRight = vec2(1.27 + 1.99 - f, 0.075);
+            vec2 topRight = vec2((1. + shBgWidth) + 1.99 - f, 0.075);
             if (
               insideAABB(vUv, bottomLeft, topRight)
             ) {
-              color.g = 1.;
+              color.rgb = pColorOne;
               color.a = 1.;
             }
           }
           // trail
-          f = mod(iTime * timeFactor, animTime);
+          f = mod(iTimeS * timeFactor, animTime);
           {
             f = min(2.99, f);
             if(f == 2.99)
               f = 0.0;
-            vec2 bottomLeft = vec2(1.27 + 1.99 - f, 0.025);
-            vec2 topRight = vec2(1.675 + 1.99 - f, 0.075);
+            vec2 bottomLeft = vec2((1. + shBgWidth) + 1.99 - f, 0.025);
+            vec2 topRight = vec2((1. + shBgWidth*2. + shBgWidth/2.) + 1.99 - f, 0.075);
             if (
               insideAABB(vUv, bottomLeft, topRight)
             ) {
-              color.g = 1.;
+              color.rgb = pColorOne;
               color.a = topRight.x - vUv.x;
             }
           }
@@ -260,18 +289,18 @@
       #define NUM_ARROWS 7
       
       {
-        float f = mod(iTime * timeFactor, animTime);
+        float f = mod(iTimeS * timeFactor, animTime);
         if(f > 1.49) {
           float width = 0.015 + (0.002 * f);
           float height = 0.1 + (0.002 * f);
-          float f = mod(iTime * timeFactor, animTime);
+          float f = mod(iTimeS * timeFactor, animTime);
           f = min(1.49, f);
           vec2 pos = vec2(-0.6, 1.92 - f);
           vec2 distance = vec2(0.0, 0.07);
-          vec3 arrowColor = vec3(0.0, 0.0, 0.0);
+          vec3 aColor = vec3(0.0, 0.0, 0.0);
 
           for(int i = 0; i < NUM_ARROWS; i++) {
-            color = createArrow(pos, width, height, arrowColor, color);
+            color = createArrow(pos, width, height, aColor, color);
             pos -= distance;
           }
         }
@@ -280,14 +309,14 @@
       {
         float width = 0.015;
         float height = 0.1;
-        float f = mod(iTime * timeFactor, animTime);
+        float f = mod(iTimeS * timeFactor, animTime);
         f = min(1.49, f);
         vec2 pos = vec2(-0.6, 1.92 - f);
         vec2 distance = vec2(0.0, 0.07);
-        vec3 arrowColor = vec3(0.25, 0.25, 0.25);
+        vec3 aColor = arrowColor;
 
         for(int i = 0; i < NUM_ARROWS; i++) {
-          color = createArrow(pos, width, height, arrowColor, color);
+          color = createArrow(pos, width, height, aColor, color);
           pos -= distance;
         }
       }

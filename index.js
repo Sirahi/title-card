@@ -41,33 +41,35 @@ export default () => {
 
       // await textApp.addModule(m);
       // postScene.add(textApp);
-    })().then(() => {
-      (async () => {
-        let u2 = `https://sirahi.github.io/title-card/eyeblaster.gltj`;
-        if (/^https?:/.test(u2)) {
-          u2 = "/@proxy/" + u2;
-        }
+    })();
+  }
+  
+  {
+    (async () => {
+      let u2 = `https://sirahi.github.io/title-card/eyeblaster.gltj`;
+      if (/^https?:/.test(u2)) {
+        u2 = "/@proxy/" + u2;
+      }
 
-        const m = await metaversefile.import(u2);
+      const m = await metaversefile.import(u2);
 
-        eyeblasterApp = metaversefile.createApp({
-          start_url: u2,
-        });
+      eyeblasterApp = metaversefile.createApp({
+        start_url: u2,
+      });
 
-        eyeblasterApp.contentId = u2;
-        eyeblasterApp.instanceId = getNextInstanceId();
-        eyeblasterApp.position.copy(app.position);
-        eyeblasterApp.quaternion.copy(app.quaternion);
-        eyeblasterApp.scale.copy(app.scale);
-        eyeblasterApp.updateMatrixWorld();
-        eyeblasterApp.name = "eyeblaster";
+      eyeblasterApp.contentId = u2;
+      eyeblasterApp.instanceId = getNextInstanceId();
+      eyeblasterApp.position.copy(app.position);
+      eyeblasterApp.quaternion.copy(app.quaternion);
+      eyeblasterApp.scale.copy(app.scale);
+      eyeblasterApp.updateMatrixWorld();
+      eyeblasterApp.name = "eyeblaster";
 
-        subApps[1] = eyeblasterApp;
+      subApps[1] = eyeblasterApp;
 
-        // await eyeblasterApp.addModule(m);
-        postScene.add(eyeblasterApp);
-      })();
-    });
+      // await eyeblasterApp.addModule(m);
+      postScene.add(eyeblasterApp);
+    })();
   }
 
   useCleanup(() => {
