@@ -8,10 +8,9 @@ let textApp = null;
 let subApps = [null, null];
 export default () => {
   const app = useApp();
-  app.name = "title-card";
-
   const postScene = usePostScene();
-
+  app.name = "title-card";
+  console.log("LATEST TITLE CARD WORKING");
   {
     (async () => {
       let u2 = `https://sirahi.github.io/title-card-text/`;
